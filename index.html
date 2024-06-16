@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>숏폼광고대행사 견적비교 플랫폼</title>
+    <style>
+      body {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #f9f9f9;
+      }
+      .container {
+        width: 90%;
+        margin: auto;
+        padding: 20px 0;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .header button,
+      .header .dropdown button {
+        background-color: #000;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        padding: 15px 25px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, box-shadow 0.3s;
+        margin-right: 5px;
+        min-width: 150px;
+      }
+      .header button:hover,
+      .header .dropdown button:hover {
+        background-color: #333;
+      }
+      .header .premium-button {
+        background-color: #ffa500;
+        color: #000;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .header .premium-button:hover {
+        background-color: #ff8c00;
+      }
+      .ad-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 20px 0;
+      }
+      .ad-list .ad-item {
+        position: relative;
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: calc(25% - 20px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.3s;
+        cursor: pointer;
+      }
+      .ad-list .ad-item:hover {
+        transform: scale(1.05);
+      }
+      .ad-list .ad-item img {
+        width: 100%;
+        height: auto;
+      }
+      .ad-list .ad-item .ad-info {
+        padding: 15px;
+      }
+      .ad-list .ad-item .ad-info h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+      }
+      .ad-list .ad-item .ad-info .keywords {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      .ad-list .ad-item .ad-info .keywords .keyword {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        color: #fff;
+        background-color: #333;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='창의적'] {
+        background-color: #ff5733;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='전략적'] {
+        background-color: #33c3ff;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='광범위'] {
+        background-color: #33ff57;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='효율적'] {
+        background-color: #ff33a8;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='혁신적'] {
+        background-color: #8d33ff;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='전문적'] {
+        background-color: #ff5733;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='독창적'] {
+        background-color: #33c3ff;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='트렌디'] {
+        background-color: #33ff57;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='대중적'] {
+        background-color: #ff33a8;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='경험많음'] {
+        background-color: #8d33ff;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='다양성'] {
+        background-color: #ff5733;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='고객중심'] {
+        background-color: #33c3ff;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='유연성'] {
+        background-color: #33ff57;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='고효율'] {
+        background-color: #ff33a8;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='신뢰성'] {
+        background-color: #8d33ff;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='맞춤형'] {
+        background-color: #ff5733;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='포괄적'] {
+        background-color: #33c3ff;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='연구기반'] {
+        background-color: #33ff57;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='데이터중심'] {
+        background-color: #ff33a8;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='고객참여'] {
+        background-color: #8d33ff;
+      }
+      .ad-list .ad-item .keywords .keyword[data-keyword='리뷰시스템'] {
+        background-color: #ff5733;
+      }
+      .ad-list .ad-item .heart-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 24px;
+        color: #000;
+        transition: color 0.3s;
+      }
+      .ad-list .ad-item .heart-btn.active {
+        color: #e74c3c;
+      }
+      .floating-grid {
+        position: fixed;
+        top: -100px;
+        right: 20px;
+        width: 300px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        transition: top 0.3s;
+        z-index: 1000;
+      }
+      .floating-grid.active {
+        top: 20px;
+      }
+      .floating-grid h4 {
+        margin: 0 0 10px;
+      }
+      .floating-grid ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .floating-grid ul li {
+        margin-bottom: 10px;
+      }
+      .floating-grid button {
+        width: 100%;
+        padding: 10px;
+        background-color: #ffa500;
+        color: #000;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s, box-shadow 0.3s;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .floating-grid button:hover {
+        background-color: #ff8c00;
+      }
+      .details,
+      .template {
+        display: none;
+      }
+      .footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #f1f1f1;
+        border-top: 1px solid #ccc;
+      }
+      .budget-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+      }
+      .budget-modal.active {
+        display: flex;
+      }
+      .budget-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        width: 300px;
+      }
+      .budget-content h2 {
+        margin-bottom: 20px;
+      }
+      .budget-content input[type='range'] {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        padding: 12px 16px;
+        z-index: 1;
+      }
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+      .dropdown-content label {
+        display: block;
+        margin-bottom: 10px;
+        background-color: #000;
+        color: #fff;
+        padding: 10px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .dropdown-content label:hover {
+        background-color: #555;
+      }
+      .logo {
+        width: 150px;
+        margin-bottom: 20px;
+      }
+      .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        z-index: 1000;
+      }
+      .popup.active {
+        display: block;
+      }
+      .popup input {
+        padding: 10px;
+        width: 100%;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .popup button {
+        background-color: #ffa500;
+        color: #000;
+        border: none;
+        border-radius: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, box-shadow 0.3s;
+        margin-right: 10px;
+      }
+      .popup button:hover {
+        background-color: #ff8c00;
+      }
+      .popup .cancel-btn {
+        background-color: #ccc;
+        color: #000;
+      }
+      .popup .cancel-btn:hover {
+        background-color: #bbb;
+      }
+      .join-button {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        padding: 15px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, box-shadow 0.3s;
+      }
+      .join-button:hover {
+        background-color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <img src="/path/to/logo.png" alt="SHORT GO" class="logo" />
+        <button id="budgetButton">예산</button>
+        <div class="dropdown">
+          <button>제품 카테고리</button>
+          <div class="dropdown-content" id="categoryDropdown">
+            <label data-value="패션">패션</label>
+            <label data-value="뷰티">뷰티</label>
+            <label data-value="식품">식품</label>
+            <label data-value="생필품">생필품</label>
+            <label data-value="가전">가전</label>
+            <label data-value="스포츠">스포츠</label>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button>광고 컨셉</button>
+          <div class="dropdown-content" id="conceptDropdown">
+            <!-- Concept options will be dynamically inserted here -->
+          </div>
+        </div>
+        <div class="dropdown">
+          <button>광고 목적</button>
+          <div class="dropdown-content">
+            <label data-value="브랜드 홍보">브랜드 홍보</label>
+            <label data-value="신제품 홍보">신제품 홍보</label>
+            <label data-value="세일즈 강화">세일즈 강화</label>
+          </div>
+        </div>
+        <button class="premium-button" id="premiumButton">
+          프리미엄 견적받기
+        </button>
+      </div>
+      <!-- Main Page -->
+      <div class="main">
+        <div class="ad-list" id="adList">
+          <!-- Ad items will be generated by JavaScript -->
+        </div>
+      </div>
+      <!-- Floating Grid for Liked Ads -->
+      <div class="floating-grid" id="floatingGrid">
+        <h4>찜한 제작사</h4>
+        <ul id="likedAdsList">
+          <!-- Liked ads will be listed here -->
+        </ul>
+        <button id="floatingRequestButton">광고 의뢰하기</button>
+      </div>
+      <!-- Details Page -->
+      <div class="details" id="detailsPage">
+        <h2 id="adTitle">광고사 A</h2>
+        <h3>소개 및 포트폴리오</h3>
+        <p>프로젝트 1</p>
+        <p>프로젝트 2</p>
+        <p>프로젝트 3</p>
+        <h3>리뷰 섹션</h3>
+        <p>리뷰 1</p>
+        <p>리뷰 2</p>
+        <p>리뷰 3</p>
+        <button>찜하기</button>
+        <button id="backBtn">뒤로 가기</button>
+      </div>
+      <!-- Template Page -->
+      <div class="template">
+        <h2>광고 의뢰서 템플릿</h2>
+        <p>선택된 광고사: 광고사 A, 광고사 B, 광고사 D</p>
+        <select>
+          <option>브랜드 인지도 향상 템플릿</option>
+          <option>제품 출시 템플릿</option>
+          <option>앱 설치 캠페인 템플릿</option>
+          <option>웹사이트 트래픽 증대 템플릿</option>
+        </select>
+        <input type="number" placeholder="예산 입력" />
+        <textarea placeholder="목표 설명"></textarea>
+        <button>견적 요청 제출</button>
+      </div>
+      <!-- Budget Modal -->
+      <div class="budget-modal" id="budgetModal">
+        <div class="budget-content">
+          <h2>예산 범위</h2>
+          <input
+            type="range"
+            id="budgetRange"
+            min="50000"
+            max="10000000"
+            value="1000000"
+            step="50000"
+          />
+          <p id="budgetValue">₩1,000,000</p>
+          <button id="closeBudgetModal" class="rounded-button">
+            설정 완료
+          </button>
+        </div>
+      </div>
+      <!-- Premium Popup -->
+      <div class="popup" id="premiumPopup">
+        <p>
+          아직 서비스가 준비중입니다. 이메일 주소를 입력해주시면 베타서비스
+          이용권을 보내드립니다.
+        </p>
+        <input type="email" placeholder="이메일 주소" />
+        <button id="premiumPopupConfirm">확인</button>
+        <button class="cancel-btn">취소</button>
+      </div>
+      <!-- Join Button -->
+      <button class="join-button" id="joinButton">광고대행사 입점신청</button>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const adData = [
+          {
+            name: '숏뜨',
+            link: 'http://shortt.kr',
+            rating: 5,
+            keywords: ['창의적', '전략적', '광범위'],
+          },
+          {
+            name: '윗유',
+            link: 'https://witu.co.kr/',
+            rating: 5,
+            keywords: ['효율적', '혁신적', '전문적'],
+          },
+          {
+            name: '숏츠캐스트',
+            link: 'https://www.shortscast.co.kr/',
+            rating: 5,
+            keywords: ['독창적', '트렌디', '대중적'],
+          },
+          {
+            name: '순이엔티',
+            link: 'https://www.soon-ent.co.kr/',
+            rating: 4,
+            keywords: ['경험많음', '다양성', '고객중심'],
+          },
+          {
+            name: '팀스완',
+            link: 'https://teamswan.co.kr/',
+            rating: 4,
+            keywords: ['독창적', '유연성', '고효율'],
+          },
+          {
+            name: '모리엔티드',
+            link: 'https://moriented.co.kr/',
+            rating: 4,
+            keywords: ['전문적', '신뢰성', '맞춤형'],
+          },
+          {
+            name: '숏폼쉐어',
+            link: 'https://shortformshare.com/bizintro',
+            rating: 4,
+            keywords: ['다양성', '창의적', '포괄적'],
+          },
+          {
+            name: '찰나',
+            link: 'https://charlla.io/about',
+            rating: 4,
+            keywords: ['신뢰성', '혁신적', '고객중심'],
+          },
+          {
+            name: '숏만연구소',
+            link: 'https://www.short10000.com/',
+            rating: 4,
+            keywords: ['연구기반', '데이터중심', '고효율'],
+          },
+          {
+            name: '시나브로스튜디오',
+            link: 'https://www.sinabrostudio.com/',
+            rating: 4,
+            keywords: ['독창적', '트렌디', '대중적'],
+          },
+          {
+            name: '피아이코퍼레이션',
+            link: 'http://www.picorp.co.kr/',
+            rating: 4,
+            keywords: ['전문적', '신뢰성', '고효율'],
+          },
+          {
+            name: '위캐리',
+            link: 'https://wecarrycorp.com/',
+            rating: 4,
+            keywords: ['독창적', '혁신적', '유연성'],
+          },
+          {
+            name: '원네이션',
+            link: 'http://www.with1nation.com/',
+            rating: 4,
+            keywords: ['신뢰성', '경험많음', '고효율'],
+          },
+          {
+            name: '브이라우드',
+            link: 'https://www.grooveplan.co.kr/vrowd',
+            rating: 4,
+            keywords: ['창의적', '전략적', '고효율'],
+          },
+          {
+            name: '르네프로덕션',
+            link: 'https://www.renecreate.com/',
+            rating: 4,
+            keywords: ['전문적', '고효율', '유연성'],
+          },
+          {
+            name: '쇼츠웍스',
+            link: 'https://shortsworks.io/',
+            rating: 4,
+            keywords: ['독창적', '고객중심', '다양성'],
+          },
+          {
+            name: '콘크리트파머스',
+            link: 'https://ccfm-shortform.imweb.me/',
+            rating: 4,
+            keywords: ['창의적', '전략적', '광범위'],
+          },
+          {
+            name: '위리뷰',
+            link: 'https://www.wereview.fun/',
+            rating: 4,
+            keywords: ['고객참여', '리뷰시스템', '광범위'],
+          },
+        ];
+
+        // Shuffle ad data
+        adData.sort(() => Math.random() - 0.5);
+
+        const adList = document.getElementById('adList');
+        const detailsPage = document.getElementById('detailsPage');
+        const adTitle = document.getElementById('adTitle');
+        const mainPage = document.querySelector('.main');
+        const templatePage = document.querySelector('.template');
+        const floatingGrid = document.getElementById('floatingGrid');
+        const likedAdsList = document.getElementById('likedAdsList');
+        const budgetModal = document.getElementById('budgetModal');
+        const budgetButton = document.getElementById('budgetButton');
+        const closeBudgetModal = document.getElementById('closeBudgetModal');
+        const budgetRange = document.getElementById('budgetRange');
+        const budgetValue = document.getElementById('budgetValue');
+        const floatingRequestButton = document.getElementById(
+          'floatingRequestButton'
+        );
+        const categoryDropdown = document.getElementById('categoryDropdown');
+        const conceptDropdown = document.getElementById('conceptDropdown');
+        const premiumButton = document.getElementById('premiumButton');
+        const premiumPopup = document.getElementById('premiumPopup');
+        const cancelPopupBtn = premiumPopup.querySelector('.cancel-btn');
+        const joinButton = document.getElementById('joinButton');
+        const premiumPopupConfirm = document.getElementById(
+          'premiumPopupConfirm'
+        );
+        let likedAds = [];
+        let concepts = {
+          패션: ['스타일리쉬', '트렌디', '세련된'],
+          뷰티: ['화사함', '자연스러움', '신선함'],
+          식품: ['맛있음', '신선함', '건강함'],
+          생필품: ['편리함', '실용성', '필수품'],
+          가전: ['첨단기술', '편리함', '혁신적'],
+          스포츠: ['활동적', '에너지', '건강'],
+        };
+
+        // Generate ad items
+        adData.forEach((ad, i) => {
+          const adItem = document.createElement('div');
+          adItem.className = 'ad-item';
+          adItem.innerHTML = `
+                  <img src="https://via.placeholder.com/300" alt="${
+                    ad.name
+                  } 이미지">
+                  <div class="ad-info">
+                      <h3>${ad.name}</h3>
+                      <p>평점: ${'⭐️'.repeat(ad.rating)} | 리뷰: ${
+            Math.floor(Math.random() * 10) + 1
+          } | 예산: 협의</p>
+                      <div class="keywords">
+                          ${ad.keywords
+                            .map(
+                              (keyword) =>
+                                `<span class="keyword" data-keyword="${keyword}">${keyword}</span>`
+                            )
+                            .join('')}
+                      </div>
+                  </div>
+                  <button class="heart-btn" data-ad="${ad.name}">❤</button>`;
+          adList.appendChild(adItem);
+        });
+
+        // Infinite scroll listener
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 100) {
+            floatingGrid.classList.add('active');
+          } else {
+            floatingGrid.classList.remove('active');
+          }
+        });
+
+        // Event delegation for ad links and heart buttons
+        document.body.addEventListener('click', function (event) {
+          if (event.target.closest('.ad-item')) {
+            event.preventDefault();
+            if (event.target.classList.contains('heart-btn')) {
+              toggleLike(event.target);
+            } else {
+              const adName = event.target
+                .closest('.ad-item')
+                .querySelector('h3').innerText;
+              const ad = adData.find((ad) => ad.name === adName);
+              if (ad) {
+                window.location.href = ad.link;
+              }
+            }
+          }
+        });
+
+        // Show details page
+        function showDetails(adName) {
+          mainPage.style.display = 'none';
+          templatePage.style.display = 'none';
+          detailsPage.style.display = 'block';
+          adTitle.textContent = adName;
+        }
+
+        // Back button handler
+        document.getElementById('backBtn').addEventListener('click', () => {
+          detailsPage.style.display = 'none';
+          mainPage.style.display = 'block';
+        });
+
+        // Toggle like function
+        function toggleLike(button) {
+          const adName = button.getAttribute('data-ad');
+          if (button.classList.contains('active')) {
+            button.classList.remove('active');
+            likedAds = likedAds.filter((ad) => ad !== adName);
+          } else {
+            button.classList.add('active');
+            likedAds.push(adName);
+          }
+          updateLikedAdsList();
+        }
+
+        // Update liked ads list in floating grid
+        function updateLikedAdsList() {
+          likedAdsList.innerHTML = '';
+          likedAds.forEach((ad) => {
+            const li = document.createElement('li');
+            li.textContent = ad;
+            likedAdsList.appendChild(li);
+          });
+        }
+
+        // Open budget modal
+        budgetButton.addEventListener('click', () => {
+          budgetModal.classList.add('active');
+        });
+
+        // Close budget modal
+        closeBudgetModal.addEventListener('click', () => {
+          budgetModal.classList.remove('active');
+        });
+
+        // Update budget value
+        budgetRange.addEventListener('input', () => {
+          budgetValue.textContent = `₩${Number(
+            budgetRange.value
+          ).toLocaleString()}`;
+        });
+
+        // Handle category selection
+        categoryDropdown.addEventListener('click', (event) => {
+          const target = event.target;
+          if (target.tagName === 'LABEL') {
+            const category = target.getAttribute('data-value');
+            conceptDropdown.innerHTML = ''; // Clear existing options
+            concepts[category].forEach((concept) => {
+              const label = document.createElement('label');
+              label.innerHTML = `${concept}`;
+              conceptDropdown.appendChild(label);
+            });
+            // Change button color
+            [...categoryDropdown.children].forEach((label) => {
+              label.style.backgroundColor = '#000';
+            });
+            target.style.backgroundColor = '#FFA500';
+          }
+        });
+
+        // Handle concept selection
+        conceptDropdown.addEventListener('click', (event) => {
+          const target = event.target;
+          if (target.tagName === 'LABEL') {
+            // Change button color
+            [...conceptDropdown.children].forEach((label) => {
+              label.style.backgroundColor = '#000';
+            });
+            target.style.backgroundColor = '#FFA500';
+          }
+        });
+
+        // Handle purpose selection
+        document.querySelectorAll('.dropdown-content').forEach((dropdown) => {
+          dropdown.addEventListener('click', (event) => {
+            const target = event.target;
+            if (target.tagName === 'LABEL') {
+              // Change button color
+              [...dropdown.children].forEach((label) => {
+                label.style.backgroundColor = '#000';
+              });
+              target.style.backgroundColor = '#FFA500';
+            }
+          });
+        });
+
+        // Open premium popup
+        premiumButton.addEventListener('click', () => {
+          premiumPopup.classList.add('active');
+        });
+
+        // Close premium popup
+        cancelPopupBtn.addEventListener('click', () => {
+          premiumPopup.classList.remove('active');
+        });
+
+        // Floating request button handler
+        floatingRequestButton.addEventListener('click', () => {
+          premiumPopup.classList.add('active');
+        });
+
+        // Join button handler
+        joinButton.addEventListener('click', () => {
+          alert('광고대행사 입점 신청 페이지로 이동합니다.');
+        });
+
+        // Premium popup confirm button handler
+        premiumPopupConfirm.addEventListener('click', () => {
+          const email = premiumPopup.querySelector('input[type="email"]').value;
+          if (email) {
+            const url =
+              'https://script.google.com/macros/s/AKfycbz55qPf_TduD5e7FUES46bBbjLqzTSyBmwaAQxFX0vr7FbTlNJgBuHsxNHCVXum7Cn9/exec'; // Google Apps Script 웹 앱 URL
+            const formData = new FormData();
+            formData.append('email', email);
+
+            fetch(url, {
+              method: 'POST',
+              body: new URLSearchParams(formData),
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.status === 'success') {
+                  alert(`베타 서비스 이용권이 ${email}으로 발송되었습니다.`);
+                  premiumPopup.classList.remove('active');
+                } else {
+                  alert('오류가 발생했습니다. 다시 시도해주세요.');
+                }
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+                alert('오류가 발생했습니다. 다시 시도해주세요.');
+              });
+          } else {
+            alert('이메일 주소를 입력해주세요.');
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
